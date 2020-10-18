@@ -1,0 +1,15 @@
+import csvParse from 'csv-parse';
+import fs from 'fs';
+import Transaction from '../models/Transaction';
+
+class ImportTransactionsService {
+  async execute(filePath: string): Promise<Transaction[]> {
+    const contatcsReadStream = fs.createReadStream(filePath);
+    const parsers = csvParse({
+      from_line: 2,
+    });
+    const parseCsv = contatcsReadStream.pipe(parsers);
+  }
+}
+
+export default ImportTransactionsService;

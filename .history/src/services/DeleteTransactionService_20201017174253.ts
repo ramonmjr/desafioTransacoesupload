@@ -1,0 +1,20 @@
+import { getCustomRepository } from 'typeorm';
+import multer from 'multer';
+import TransactionRepository from '../repositories/TransactionsRepository';
+import AppError from '../errors/AppError';
+
+class DeleteTransactionService {
+  public async execute(id: string): Promise<void> {
+    const transactionsRepository = getCustomRepository(TransactionRepository);
+
+    const transaction = transactionsRepository.findOne(id);
+
+    if (!transaction) {
+      throw new AppError('Transaction not Found.');
+    }
+
+    await transactionsRepository.delete(id);
+  }
+}
+
+export default DeleteTransactionService;
